@@ -1,4 +1,6 @@
-import { Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -16,13 +18,18 @@ export class UsersController {
     }
     // POST /users
     @Post()
-    createUser() {
-        return{};
+    createUser(@Body() createNinjaDto: CreateUserDto) {
+        return{
+            name: createNinjaDto.name,
+        };
     }
     // PUT /users/:id --> { ... }
-    @Put()
-    updateUser() {
-        return{};
+    @Put(':id')
+    updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+        return{
+            id,
+            name: updateUserDto
+        };
     }
     // DELETE / users/:id
     @Delete(':id')
