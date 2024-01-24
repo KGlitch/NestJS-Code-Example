@@ -37,9 +37,9 @@ CRUD API
 
 Nutzt Thunder Client als VS Code Extension um die API zu testen.
 Dazu:
-'''bash
-npm run start dev
-'''
+```bash
+$ npm run start dev
+```
 und im Thunder Client:
 _localhost:3000/users_
 
