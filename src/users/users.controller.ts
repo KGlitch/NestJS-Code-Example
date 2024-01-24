@@ -1,39 +1,45 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-    // GET /users --> []
+
+    // Dependency Injection
+    constructor( private readonly usersService: UsersService) {}
+
+    // GET /users?occpuation= --> []
     @Get()
-    getUsers(@Query('type') type: string) {
-        return[{ type }];
+    getUsers(@Query('occupation') occupation: 'Beruf1' | 'Beruf2') {
+        return this.usersService.getUsers(occupation);
     }
+
     // GET /users/:id --> { ... }
     @Get(':id')
     getOneUser(@Param('id') id: string) {
-        return {
-            id,
-        };
+        try {
+            return this.usersService.getOneUser(+id);
+        } catch (error) {
+            throw new NotFoundException();
+        }    
     }
+
     // POST /users
     @Post()
-    createUser(@Body() createNinjaDto: CreateUserDto) {
-        return{
-            name: createNinjaDto.name,
-        };
+    createUser(@Body() createUserDto: CreateUserDto) {
+        return this.usersService.createUser(createUserDto);
     }
+
     // PUT /users/:id --> { ... }
     @Put(':id')
     updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return{
-            id,
-            name: updateUserDto
-        };
+        return this.usersService.updateUser(+id, updateUserDto);
     }
+    
     // DELETE / users/:id
     @Delete(':id')
-    removeUser() {
-        return{};
+    removeUser(@Param('id') id: string) {
+        return this.usersService.removeUser(+id);
     }
 }
