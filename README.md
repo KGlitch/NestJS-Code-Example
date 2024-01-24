@@ -4,6 +4,7 @@
 ```bash
 $ npm install
 § npm i --save class-validator class-transformer
+$ npm install @nestjs/sequelize sequelize sqlite3
 ```
 
 ## Running the app
