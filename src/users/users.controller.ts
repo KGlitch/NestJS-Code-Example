@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { StudiumGuard } from 'src/studium/studium.guard';
 
 @Controller('users')
 export class UsersController {
@@ -17,9 +18,9 @@ export class UsersController {
 
     // GET /users/:id --> { ... }
     @Get(':id')
-    getOneUser(@Param('id') id: string) {
+    getOneUser(@Param('id', ParseIntPipe) id: number) {
         try {
-            return this.usersService.getOneUser(+id);
+            return this.usersService.getOneUser(id);
         } catch (error) {
             throw new NotFoundException();
         }    
@@ -27,19 +28,20 @@ export class UsersController {
 
     // POST /users
     @Post()
-    createUser(@Body() createUserDto: CreateUserDto) {
+    @UseGuards(StudiumGuard)
+    createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
         return this.usersService.createUser(createUserDto);
     }
 
     // PUT /users/:id --> { ... }
     @Put(':id')
-    updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return this.usersService.updateUser(+id, updateUserDto);
+    updateUser(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+        return this.usersService.updateUser(id, updateUserDto);
     }
     
     // DELETE / users/:id
     @Delete(':id')
-    removeUser(@Param('id') id: string) {
-        return this.usersService.removeUser(+id);
+    removeUser(@Param('id', ParseIntPipe) id: number) {
+        return this.usersService.removeUser(id);
     }
 }
