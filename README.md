@@ -3,6 +3,7 @@
 
 ```bash
 $ npm install
+§ npm i --save class-validator class-transformer
 ```
 
 ## Running the app
