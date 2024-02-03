@@ -1,5 +1,6 @@
 import { IsEnum, MinLength } from "class-validator";
 
+// Ein dto schränkt das zu erstellende Objekt ein
 export class CreateUserDto {
     id: number;
 

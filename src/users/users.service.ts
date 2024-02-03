@@ -26,11 +26,11 @@ export class UsersService {
     }
 
     createUser(createUserDto: CreateUserDto) {
-        const newUser = {
+        const newUser = {     // erstelle neuen User      
             ...createUserDto,
             id: Date.now(),
         };
-        this.users.push(newUser);
+        this.users.push(newUser);   // append newUser zum Array users
         return newUser;
     }
 

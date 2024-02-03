@@ -10,7 +10,6 @@ export class StudiumGuard implements CanActivate {
 
     // validation logic
 
-
     return true;
   }
 }

@@ -28,8 +28,8 @@ export class UsersController {
 
     // POST /users
     @Post()
-    @UseGuards(StudiumGuard)
-    createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+    @UseGuards(StudiumGuard) // Guards übernehmen in NestJS die Autorisierung (Berechtigungen, Rollen, ...) von Anfragen.
+    createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {  // ValidationPipes überprüfen, ob die Regeln des dto eingehalten wurden
         return this.usersService.createUser(createUserDto);
     }
 
